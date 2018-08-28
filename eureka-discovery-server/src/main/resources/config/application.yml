@@ -1,0 +1,54 @@
+############################################
+# Fichiers de properties applicatif.
+# Uniquement li� aux configurations applicatives de Spring
+############################################
+#désactivation auto-découverte
+eureka:
+  client:
+    register-with-eureka:   false
+
+    fetch-registry:         false
+
+  instance:
+    hostname: localhost
+    appName: eureka-discovery
+  server:
+    enable-self-preservation: false
+
+
+#####################################################################
+# Configuration Spring actuator
+#####################################################################
+management:
+  security:
+    enabled:                         false
+  context-path:                      /actuator
+# configuration des endpoints
+endpoints:
+  hypermedia:
+    enabled:                         true
+  actuator:
+    enabled:                         true
+  beans:
+    enabled:                         true
+  env:
+    enabled:                         true
+  metrics:
+    enabled:                         true
+  health:
+    enabled:                         true
+  mappings:
+    enabled:                         true
+  docs:
+    enabled:                         true
+  logfile:
+    enabled:                         true
+
+server:
+  port:                     8300
+
+
+logging:
+  level:
+    com.netflix.eureka:     OFF
+    com.netflix.discovery:  OFF

@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- ****** artifact description ****** -->
+    <groupId>ch.globaz.tmmas</groupId>
+    <artifactId>rentes-service</artifactId>
+    <packaging>pom</packaging>
+    <description>Module parent pour le backend de référence</description>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <!-- ****** Modules applicatifs ****** -->
+    <modules>
+        <module>rentes-service-application</module>
+        <module>rentes-service-infrastructure</module>
+        <module>rentes-service-domain</module>
+    </modules>
+
+    <!-- ****** Propriétés ****** -->
+    <properties>
+        <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
+        <spring.version>4.3.13.RELEASE</spring.version>
+        <spring-cloud-dependencies.version>Camden.SR7</spring-cloud-dependencies.version>
+
+        <maven-war.plugin.version>3.2.0</maven-war.plugin.version>
+        <maven-source.plugin>3.0.1</maven-source.plugin>
+        <application.packaging.type>war</application.packaging.type>
+        <maven.help.version>2.2</maven.help.version>
+        <logback.version>1.2.3</logback.version>
+        <logback.encoder.version>4.11</logback.encoder.version>
+        <hibernate.version>5.2.12.Final</hibernate.version>
+
+
+        <db2.driver.version>10.1</db2.driver.version>
+
+
+        <tomcat.jdbc.version>9.0.2</tomcat.jdbc.version>
+        <junit.version>4.12</junit.version>
+        <assertJ.version>3.9.0</assertJ.version>
+        <swagger.version>2.6.1</swagger.version>
+        <lombok.version>1.16.20</lombok.version>
+        <project.build.encoding>UTF-8</project.build.encoding>
+        <h2.driver.version>1.4.196</h2.driver.version>
+
+        <faker.version>0.14</faker.version>
+
+    </properties>
+
+    <!-- ****** Profils maven ****** -->
+    <profiles>
+        <!-- profil jar pour build de l'application en jar
+         usage: mvn clean install -Pjar -->
+        <profile>
+            <id>jar</id>
+            <properties>
+                <application.packaging.type>jar</application.packaging.type>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>globaz</id>
+            <properties>
+                <db2.driver.version>4.12.55</db2.driver.version>
+            </properties>
+        </profile>
+
+    </profiles>
+
+    <!-- ****** Gestion des dépendances ****** -->
+    <dependencyManagement>
+
+        <dependencies>
+            <!-- ********************************* -->
+            <!-- ****** Modules applicatifs ****** -->
+            <!-- ********************************* -->
+            <dependency>
+                <groupId>ch.globaz.tmmas</groupId>
+                <artifactId>rentes-service-application</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.globaz.tmmas</groupId>
+                <artifactId>rentes-service-domain</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.globaz.tmmas</groupId>
+                <artifactId>rentes-service-infrastructure</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <!-- ********************************* -->
+            <!-- ************* Spring ************ -->
+            <!-- ********************************* -->
+            <!-- spring boot -->
+            <!--
+            repo: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies
+            doc: doc: https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/reference/htmlsingle -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- spring web mvc-->
+            <!--
+            repo: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
+            doc: doc: https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/reference/htmlsingle-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!-- spring web hateoas -->
+            <!--
+            repo: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-hateoas
+            doc: doc: https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/reference/htmlsingle -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-hateoas</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!-- embeded tomcat -->
+            <!--
+            repo: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat
+            doc: doc: https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/reference/htmlsingle -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- actuator spring metrics
+            repo: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
+            doc: https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/reference/htmlsingle/ -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <!-- actuator docs
+            repo: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-actuator-docs
+            doc: https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/reference/htmlsingle -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-actuator-docs</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Camden.SR7</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+           
+
+
+            <!-- ********************************* -->
+            <!-- ******** Persistence ************ -->
+            <!-- ********************************* -->
+
+            <!-- hibernate core module
+            repo: https://mvnrepository.com/artifact/org.hibernate/hibernate-core
+            doc: http://hibernate.org/orm/documentation/5.2/ -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+
+            <!-- pilote db2 type 4
+            repo: interne globaz
+            doc: http://www-01.ibm.com/support/docview.wss?uid=swg21363866 -->
+            <dependency>
+                <groupId>com.ibm.db2.jcc</groupId>
+                <artifactId>db2jcc4</artifactId>
+                <version>${db2.driver.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.driver.version}</version>
+            </dependency>
+            <!-- sprnig orm module
+            repo: https://mvnrepository.com/artifact/org.springframework/spring-orm
+            doc: https://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/orm.html -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <!-- ****** Logging ****** -->
+            <!-- logback classic
+            repo: https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+            doc: https://logback.qos.ch/documentation.html -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+                <!-- test is mandatory here, will be overriden by final artifacts -->
+                <scope>test</scope>
+            </dependency>
+
+            <!-- logback core
+            repo: https://mvnrepository.com/artifact/ch.qos.logback/logback-core
+            doc: https://logback.qos.ch/documentation.html -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+                <!-- test is mandatory here, will be overriden by final artifacts -->
+                <scope>test</scope>
+            </dependency>
+
+            <!-- logback logstash encoder, formattage json des logs
+            repo: https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
+            doc: https://github.com/logstash/logstash-logback-encoder -->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logback.encoder.version}</version>
+            </dependency>
+
+            <!-- Tomcat jdbc for poll management
+            repo: https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc
+            doc: https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-sql.html-->
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-jdbc</artifactId>
+                <version>${tomcat.jdbc.version}</version>
+            </dependency>
+
+            <!-- ********************************* -->
+            <!-- ********    Swagger    ************ -->
+            <!-- ********************************* -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <!-- ********************************* -->
+            <!-- ********    Tests    ************ -->
+            <!-- ********************************* -->
+
+            <!-- Junit
+            repo: https://mvnrepository.com/artifact/junit/junit
+            doc: http://junit.org/junit4/ -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- AssertJ
+            repo: https://mvnrepository.com/artifact/org.assertj/assertj-core
+            doc: http://joel-costigliola.github.io/assertj/assertj-core.html -->
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertJ.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- ********************************* -->
+            <!-- ********    Divers   ************ -->
+            <!-- ********************************* -->
+
+            <!-- lombok
+            repo:https://mvnrepository.com/artifact/org.projectlombok/lombok
+            doc: https://projectlombok.org/ -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- datafaker -->
+            <dependency>
+                <groupId>com.github.javafaker</groupId>
+                <artifactId>javafaker</artifactId>
+                <version>${faker.version}</version>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
+
+    <!-- ****** Dépendances transverses ****** -->
+    <dependencies>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+
+    </dependencies>
+
+
+    <!-- ****** Build ****** -->
+    <build>
+
+        <pluginManagement>
+
+            <plugins>
+
+                <!-- spring boot maven plugin
+                repo: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-maven-plugin
+                doc: https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/maven-plugin/ -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- maven war plugin
+                repo: https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin
+                doc : https://maven.apache.org/plugins/maven-war-plugin/ -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven-war.plugin.version}</version>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+
+                <!-- maven sources plugin
+                repo: https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin
+                doc: https://maven.apache.org/plugins/maven-source-plugin/index.html -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source.plugin}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Maven compiler plugin
+                repo: https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin
+                doc: https://maven.apache.org/plugins/maven-compiler-plugin/index.html -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
+
+
+        <plugins>
+
+            <!-- génération des sources pour tous les modules -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <!-- compilation -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+
+    </build>
+
+    <!-- repositories aalfresco pour db2 -->
+    <repositories>
+        <repository>
+            <id>alfresco</id>
+            <name>alfresco</name>
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/public/</url>
+        </repository>
+
+    </repositories>
+
+</project>

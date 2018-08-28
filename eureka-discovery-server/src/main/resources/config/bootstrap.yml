@@ -1,0 +1,10 @@
+#####################################################################
+# Configuration Spring de base
+#####################################################################
+spring:
+  application:
+    name:                   eureka-discovery-server
+
+  profiles:
+    active:                 dev
+

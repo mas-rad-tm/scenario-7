@@ -1,0 +1,54 @@
+#####################################################################
+# Configuration Spring de base
+#####################################################################
+# app name
+spring:
+  application:
+    name:                                               personnes-service
+
+# active profile
+  profiles:
+    active:                                             dev,h2
+
+# Discovery server
+eureka:
+  client:
+    serviceUrl:
+      defaultZone:                                      http://localhost:8300/eureka/
+    registerWithEureka:                                 true
+    fetchRegistry:                                      true
+   # healthcheck:
+    #  enabled:                                          true
+  instance:
+    leaseRenewalIntervalInSeconds:                      1
+    leaseExpirationDurationInSeconds:                   2
+
+#####################################################################
+# Configuration Spring actuator
+#####################################################################
+management:
+  security:
+    enabled:                            false
+
+  context-path:                         /actuator
+
+# configuration des endpoints
+endpoints:
+  hypermedia:
+    enabled:                            true
+  actuator:
+    enabled:                            true
+  beans:
+    enabled:                            true
+  env:
+    enabled:                            true
+  metrics:
+    enabled:                            true
+  health:
+    enabled:                            true
+  mappings:
+    enabled:                            true
+  docs:
+    enabled:                            true
+  logfile:
+    enabled:                            true

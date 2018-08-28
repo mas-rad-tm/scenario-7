@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field">
+
+    <class name="ch.globaz.tmmas.personnes.domain.model.PersonnePhysique" table="personnePhysique" mutable="true">
+        <id name="id" column="id">
+            <generator class="org.hibernate.id.IdentityGenerator"/>
+        </id>
+
+        <property name="nom" column="nom" not-null="true"/>
+
+        <property name="prenom" column="prenom" not-null="true"/>
+
+        <property name="dateNaissance" column="dateNaissance" not-null="true"/>
+
+        <component name="nss" unique="true" update="false" >
+            <property name="nss" column="nss" not-null="true"/>
+        </component>
+
+        <component name="identifiant" unique="true" update="false" >
+            <property name="identifiant" column="identifiant" not-null="true"/>
+        </component>
+
+    </class>
+
+</hibernate-mapping>

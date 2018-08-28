@@ -1,0 +1,77 @@
+info:
+  component: Edge Server
+
+
+management:
+
+  endpoint:
+    metrics:
+      enabled: true
+
+    prometheus:
+      enabled: true
+
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+  endpoints:
+
+    web:
+      exposure:
+        include: "*"
+    beans:
+      enabled: true
+
+# Increase the Hystrix timeout to 60s (globally)
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+zuul:
+
+  prefix: /api/v1
+  routes:
+    rentes:
+      url: http://localhost:9020
+      #path: /rentes/**
+      #serviceId: rentes-service
+      #stripPrefix: true
+      #retryable: true
+
+    personnes:
+      url: http://localhost:9010
+      #path: /personnes/**
+      #serviceId: personnes-service
+      #stripPrefix: true
+      #retryable: true
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://localhost:8300/eureka/}
+    registerWithEureka: true
+
+ribbon:
+  eureka:
+      enabled: true
+  restclient:
+    enabled:             true
+  ReadTimeout:           5000
+  ConnectTimeout:        3000
+  maxAutoRetries:        1
+  MaxAutoRetriesNextServer: 2
+  OkToRetryOnAllOperations: true
+
+
+
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.web: DEBUG

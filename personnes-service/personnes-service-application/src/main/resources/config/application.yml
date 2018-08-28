@@ -1,0 +1,19 @@
+###########################
+# Config applicative globale
+###########################
+# mode jar, port et context
+server:
+  port:                              ${PORT:9010}
+
+
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+
+spring:
+  boot:
+    admin:
+      url: http://localhost:8080
+
