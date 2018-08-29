@@ -1,6 +1,5 @@
 package ch.globaz.tmmas.zuulapigateway.application.metrics;
 
-import com.netflix.discovery.AzToRegionMapper;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +15,7 @@ public class RequestCountCollector {
 
 	private Map<String,AtomicInteger> zuulCallByApi = new HashMap<>();
 	private Map<String,AtomicInteger> serverCallByApi = new HashMap<>();
+	private Map<String,AtomicInteger> serverCallByRoutingHost = new HashMap<>();
 
 	@Autowired
 	MeterRegistry registry;
@@ -30,24 +30,44 @@ public class RequestCountCollector {
 		serverCallByApi.values().forEach(counter -> {
 			counter.set(0);
 		});
+
+		serverCallByRoutingHost.values().forEach(counter -> {
+			counter.set(0);
+		});
 	}
 
 
+	public void doCollectForRibbonRouting(String path, String ribbonRoutingHost){
 
-	public void doCollect(String key, String host, MetricsGauges gauge){
+
+
+		serverCallByRoutingHost.putIfAbsent(ribbonRoutingHost,initialiseGaugeRibbonRouting(path,ribbonRoutingHost));
+
+		serverCallByRoutingHost.computeIfPresent(ribbonRoutingHost,(p,counter)->{
+			log.info("Key present :{}, compute..., old value : {}",p,counter.get());
+			log.info("new value for key [{}]: {}",p,counter.incrementAndGet());
+			return counter;
+		});
+
+		log.info("End collecting data :{}", serverCallByRoutingHost);
+	}
+
+	public void doCollect(String key, MetricsGauges gauge){
 
 		Map<String,AtomicInteger> mapForGauge;
 
 		if(gauge.equals(MetricsGauges.SERVER_REQUEST_FILTER)){
 			mapForGauge = serverCallByApi;
-		}else{
+		}else if(gauge.equals(MetricsGauges.ZUUL_REQUEST_FILTER)){
 			mapForGauge = zuulCallByApi;
+		}else{
+			throw new IllegalArgumentException(String.format("The metrics gauge passed is not correct : %s",gauge));
 		}
 
 		log.info("Collecting for key count {}, for gauge: {}", key,gauge.gaugeName());
 
 		//si pas présente on initialise
-		mapForGauge.putIfAbsent(key, initialiseGaugeFor(key,host,gauge.gaugeName()));
+		mapForGauge.putIfAbsent(key, initialiseGaugeRequestPath(key,gauge.gaugeName()));
 
 		mapForGauge.computeIfPresent(key,(path, counter)->{
 			log.info("Key present :{}, compute..., old value : {}",path,counter.get());
@@ -55,23 +75,29 @@ public class RequestCountCollector {
 			return counter;
 		});
 
-		log.info("End collecting data :{}", zuulCallByApi);
+		log.info("End collecting data :{}", mapForGauge);
 	}
 
 
-	private AtomicInteger initialiseGaugeFor(String key, String host, String gaugeName){
+	private AtomicInteger initialiseGaugeRibbonRouting(String path, String host){
 
 
 		AtomicInteger requestCounter = new AtomicInteger(0);
+		Gauge.builder(MetricsGauges.RIBBON_API_ROUTING.gaugeName(), requestCounter, obj-> obj.doubleValue())
+				.tag("host", host)
+				.tag("api", path)
+				.register(registry);
+
+		return requestCounter;
+
+	}
 
 
-			Gauge.builder(gaugeName, requestCounter, obj->
-					obj.doubleValue()
-			).tag("api", key)
-			.tag("host",host)
-			.register(registry);
+	private AtomicInteger initialiseGaugeRequestPath(String key, String gaugeName){
 
 
+		AtomicInteger requestCounter = new AtomicInteger(0);
+		Gauge.builder(gaugeName, requestCounter, obj-> obj.doubleValue()).tag("api", key).register(registry);
 
 		return requestCounter;
 

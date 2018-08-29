@@ -38,18 +38,16 @@ zuul:
   prefix: /api/v1
   routes:
     rentes:
-      url: http://localhost:9020
-      #path: /rentes/**
-      #serviceId: rentes-service
-      #stripPrefix: true
-      #retryable: true
+      path: /rentes/**
+      serviceId: rentes-service
+      stripPrefix: true
+      retryable: true
 
     personnes:
-      url: http://localhost:9010
-      #path: /personnes/**
-      #serviceId: personnes-service
-      #stripPrefix: true
-      #retryable: true
+      path: /personnes/**
+      serviceId: personnes-service
+      stripPrefix: true
+      retryable: true
 
 
 eureka:

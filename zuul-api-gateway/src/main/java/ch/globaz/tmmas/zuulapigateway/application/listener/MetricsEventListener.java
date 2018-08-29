@@ -21,7 +21,8 @@ public class MetricsEventListener {
 	public void onZuulFilterEvent(ZuulFilterEvent zuulFilterEvent){
 		log.info("Zuul filter event: {}",zuulFilterEvent);
 
-		collector.doCollect(zuulFilterEvent.getKey(),zuulFilterEvent.getHost(), MetricsGauges.ZUUL_REQUEST_FILTER);
+		collector.doCollect(zuulFilterEvent.getServicePath(), MetricsGauges.ZUUL_REQUEST_FILTER);
+		collector.doCollectForRibbonRouting(zuulFilterEvent.getServicePath(), zuulFilterEvent.getHost());
 
 	}
 
@@ -29,7 +30,7 @@ public class MetricsEventListener {
 	public void onServerFilterEvent(ServerFilterEvent serverFilterEvent){
 		log.info("Server filter event: {}",serverFilterEvent);
 
-		collector.doCollect(serverFilterEvent.getKey(), serverFilterEvent.getHost(),MetricsGauges.SERVER_REQUEST_FILTER);
+		collector.doCollect(serverFilterEvent.getKey(), MetricsGauges.SERVER_REQUEST_FILTER);
 
 	}
 

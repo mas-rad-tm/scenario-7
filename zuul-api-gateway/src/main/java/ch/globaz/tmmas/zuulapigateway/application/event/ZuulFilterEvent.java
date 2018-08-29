@@ -1,8 +1,6 @@
 package ch.globaz.tmmas.zuulapigateway.application.event;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,13 +10,13 @@ public class ZuulFilterEvent {
 
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("DD.MM.YYYY HH:mm:ss");
 
-	private String key;
+	private String servicePath;
 	private String eventDate;
 	private String host;
 
 
-	public ZuulFilterEvent(String key, String host) {
-		this.key = key;
+	public ZuulFilterEvent(String servicePath, String host) {
+		this.servicePath = servicePath;
 		this.host = host;
 		this.eventDate = dateFormat.format(new Date());
 	}
