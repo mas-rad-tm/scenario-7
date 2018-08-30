@@ -7,7 +7,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -27,7 +26,6 @@ import java.util.stream.Collectors;
  *
  */
 @Configuration
-@EnableDiscoveryClient
 @EnableAutoConfiguration(exclude = HibernateJpaAutoConfiguration.class)
 @ComponentScan(basePackages = "ch.globaz.tmmas.personnes")
 public class PersonnesServiceApplication {

@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = HibernateJpaAutoConfiguration.class)
-@EnableDiscoveryClient
 @EnableFeignClients(basePackages="ch.globaz.tmmas.rentesservice.infrastructure.service")
 @ComponentScan(basePackages = {"ch.globaz.tmmas.rentesservice"})
 public class RentesServiceApplication {

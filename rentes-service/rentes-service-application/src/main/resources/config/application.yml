@@ -9,23 +9,51 @@ server:
 
 
 
-# Discovery server
-eureka:
-  client:
-    serviceUrl:
-      defaultZone:                                      http://localhost:8300/eureka/
-    registerWithEureka:                                 true
-    registry-fetch-interval-seconds: 3
+#####################################################################
+# Configuration Spring de base
+#####################################################################
+# app name
+spring:
 
-    fetchRegistry:                                      true
-    healthcheck:
-      enabled: true
-  instance:
-    statusPageUrlPath: /rentes-service/actuator/info
-    healthCheckUrlPath: /rentes-service/actuator/health
-    leaseInfo:
-      renewalIntervalInSecs: 5
-      durationInSecs: 10
-    home-page-url: /rentes-service/swagger-ui.html
-    lease-expiration-duration-in-seconds: 5
-    leaseRenewalIntervalInSeconds: 10
+  application:
+    name:                                               rentes-service
+
+# active profile
+  profiles:
+    active:                                             dev,h2
+#dev h2
+#spring.profiles.active=dev
+
+
+
+
+
+#####################################################################
+# Configuration Spring actuator
+#####################################################################
+management:
+  security:
+    enabled:                            false
+
+  context-path:                         /actuator
+
+# configuration des endpoints
+endpoints:
+  hypermedia:
+    enabled:                            true
+  actuator:
+    enabled:                            true
+  beans:
+    enabled:                            true
+  env:
+    enabled:                            true
+  metrics:
+    enabled:                            true
+  health:
+    enabled:                            true
+  mappings:
+    enabled:                            true
+  docs:
+    enabled:                            true
+  logfile:
+    enabled:

@@ -5,15 +5,48 @@
 server:
   port:                              ${PORT:9010}
 
-
-
-eureka:
-  client:
-    healthcheck:
-      enabled: true
-
+#####################################################################
+# Configuration Spring de base
+#####################################################################
+# app name
 spring:
-  boot:
-    admin:
-      url: http://localhost:8080
+  application:
+    name:                                               personnes-service
 
+# active profile
+  profiles:
+    active:                                             dev,h2
+
+
+
+#####################################################################
+# Configuration Spring actuator
+#####################################################################
+management:
+  security:
+    enabled:                            false
+
+  context-path:                         /actuator
+
+# configuration des endpoints
+endpoints:
+  hypermedia:
+    enabled:                            true
+  actuator:
+    enabled:                            true
+  beans:
+    enabled:                            true
+  env:
+    enabled:                            true
+  metrics:
+    enabled:                            true
+  health:
+    enabled:                            true
+  mappings:
+    enabled:                            true
+  docs:
+    enabled:                            true
+  logfile:
+    enabled:                            true
+  prometheus:
+    enabled: true

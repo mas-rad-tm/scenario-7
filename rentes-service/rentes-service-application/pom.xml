@@ -82,6 +82,18 @@
             <artifactId>rentes-service-infrastructure</artifactId>
        </dependency>
 
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-spring-legacy</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+
+
         <!-- spring web starter transverse pour application et infrastructure -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
