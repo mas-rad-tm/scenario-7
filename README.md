@@ -54,9 +54,9 @@ Les logs applicatifs sont générés dans un répertoire déinis. Suivant le sys
 
 L'application est maintenant disponible via l'url suivante: `http://localhost:8300`. 
 
-#### ZuulApiGateway
+#### SpringGateway
 * Récupération du repository
-* Se rendre dans le dossier `/zuul-api-gateway`
+* Se rendre dans le dossier `/spring-gateway`
 * lancer la commande `mvn clean install`
 * lancer l'application avec la commande `mvn spring-boot:run`
 
