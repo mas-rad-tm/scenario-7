@@ -56,11 +56,11 @@ L'application est maintenant disponible via l'url suivante: `http://localhost:83
 
 #### SpringGateway
 * Récupération du repository
-* Se rendre dans le dossier `/spring-gateway`
+* Se rendre dans le dossier `/spring-cloud-gateway`
 * lancer la commande `mvn clean install`
 * lancer l'application avec la commande `mvn spring-boot:run`
 
-L'application est maintenant disponible via l'url suivante: `http://localhost:8020/gateway`. 
+L'application est maintenant disponible via l'url suivante: `http://localhost:8210/gateway`. 
 
 ##### Paramétrages
 ###### Parmétrage du port
